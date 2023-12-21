@@ -4,9 +4,14 @@ import {Injectable} from '@nestjs/common'
 export class AuthService {
   register() {
     return {
-      status: 200,
+      status: 201,
       name: this.register.name,
     }
+
+    // 1. get email & password
+    // 2. throw if email is in use
+    // 3. hash the password
+    // 4. save the user data
   }
 
   connect() {
