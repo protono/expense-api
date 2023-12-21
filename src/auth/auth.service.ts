@@ -2,7 +2,7 @@ import {Injectable} from '@nestjs/common'
 
 @Injectable()
 export class AuthService {
-  register() {
+  register(email: string, passwrd: string) {
     return {
       status: 201,
       name: this.register.name,
