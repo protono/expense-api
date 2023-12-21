@@ -1,8 +1,9 @@
 import {Injectable} from '@nestjs/common'
+import {AuthDto} from './dto'
 
 @Injectable()
 export class AuthService {
-  register(email: string, passwrd: string) {
+  register(dto: AuthDto) {
     return {
       status: 201,
       name: this.register.name,
