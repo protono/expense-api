@@ -9,11 +9,12 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('connect')
   connect() {
-    return this.authService.connect()
+    return this.authService.connectUser()
   }
 
   @Post('register')
   register(@Body() dto: AuthDto) {
-    return this.authService.register(dto)
+    return this.authService.registerUser(dto)
   }
 }
+/*  */
