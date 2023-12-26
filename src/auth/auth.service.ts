@@ -1,8 +1,10 @@
 import {Injectable} from '@nestjs/common'
 import {AuthDto} from './dto'
-import {User} from '@prisma/client'
+import {PrismaService} from '../prisma/prisma.service'
 
+@Injectable()
 export class AuthService {
+  constructor(private prismaService: PrismaService) {}
   registerUser(dto: AuthDto) {
     // 1. get email & password
     // 2. throw if email is in use
