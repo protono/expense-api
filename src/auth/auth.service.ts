@@ -8,7 +8,7 @@ export class AuthService {
   constructor(private prismaService: PrismaService) {}
   async registerUser(dto: AuthDto) {
     // throw if email is in use
-    const userExists = await this.prismaService.user.findFirst({where: {email: dto.email}})
+    const userExists = await this.prismaService.user.findUnique({where: {email: dto.email}})
     // console.log({userExists})
     if (userExists) {
       throw new ForbiddenException('The request did not succeed')
@@ -34,7 +34,6 @@ export class AuthService {
 
   async connectUser(dto: AuthDto) {
     // throw if email is not in use
-    // const user = await this.prismaService.user.findFirst({where: {email: dto.email}})
     const user = await this.prismaService.user.findUnique({where: {email: dto.email}})
     // console.log({user})
     if (!user) {
