@@ -34,7 +34,8 @@ export class AuthService {
 
   async connectUser(dto: AuthDto) {
     // throw if email is not in use
-    const user = await this.prismaService.user.findFirst({where: {email: dto.email}})
+    // const user = await this.prismaService.user.findFirst({where: {email: dto.email}})
+    const user = await this.prismaService.user.findUnique({where: {email: dto.email}})
     // console.log({user})
     if (!user) {
       throw new ForbiddenException('The request did not succeed')
