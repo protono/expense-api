@@ -1,21 +1,33 @@
-import {Injectable} from '@nestjs/common'
-import {AuthDto} from './dto'
+import {ForbiddenException, Injectable} from '@nestjs/common'
 import {PrismaService} from '../prisma/prisma.service'
+import {AuthDto} from './dto'
+import * as argon2 from 'argon2'
 
 @Injectable()
 export class AuthService {
   constructor(private prismaService: PrismaService) {}
   async registerUser(dto: AuthDto) {
+    // throw if email is in use
     const userExists = await this.prismaService.user.findFirst({where: {email: dto.email}})
-    console.log({userExists})
-    // 1. get email & password
-    // 2. throw if email is in use
-    // 3. hash the password
-    // 4. save the user data
+    // console.log({userExists})
+    if (userExists) {
+      throw new ForbiddenException('The request did not succeed')
+    }
+
+    // hash the password
+    const hash = await argon2.hash(dto.password)
+
+    // create the user
+    const user = await this.prismaService.user.create({
+      data: {
+        email: dto.email,
+        hash,
+      },
+    })
     return {
-      status: 201,
-      name: this.registerUser.name,
-      dto,
+      msg: 'user registered',
+      user: dto,
+      userId: user.id,
     }
   }
 
