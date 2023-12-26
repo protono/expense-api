@@ -8,8 +8,8 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('connect')
-  connect() {
-    return this.authService.connectUser()
+  connect(@Body() dto: AuthDto) {
+    return this.authService.connectUser(dto)
   }
 
   @Post('register')

@@ -24,17 +24,31 @@ export class AuthService {
         hash,
       },
     })
+
     return {
-      msg: 'user registered',
-      user: dto,
+      msg: 'User registered',
+      user: dto.email,
       userId: user.id,
     }
   }
 
-  connectUser() {
+  async connectUser(dto: AuthDto) {
+    // throw if email is not in use
+    const user = await this.prismaService.user.findFirst({where: {email: dto.email}})
+    // console.log({user})
+    if (!user) {
+      throw new ForbiddenException('The request did not succeed')
+    }
+
+    // throw if password cannot be vberified
+    const match = await argon2.verify(user.hash, dto.password)
+    if (!match) {
+      throw new ForbiddenException('The request did not succeed')
+    }
+
     return {
-      status: 200,
-      name: this.connectUser.name,
+      msg: 'User connected',
+      user: dto.email,
     }
   }
 }
