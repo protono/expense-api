@@ -26,7 +26,6 @@ export class AuthService {
     })
 
     return {
-      msg: 'User registered',
       id: user.id,
       email: user.email,
     }

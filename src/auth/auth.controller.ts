@@ -7,18 +7,24 @@ import {UserSession} from './types'
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  private serializeSession(session: UserSession, id: number, email: string) {
+    session.user = {id, email}
+  }
+
   @HttpCode(HttpStatus.OK)
   @Post('connect')
   async connect(@Body() dto: AuthDto, @Session() session: UserSession) {
     console.log({session})
     const {id, email} = await this.authService.connectUser(dto)
-    session.user = {id, email}
-    return this.authService.connectUser(dto)
+    // session.user = {id, email}
+    this.serializeSession(session, id, email)
   }
 
   @Post('register')
-  register(@Body() dto: AuthDto) {
-    return this.authService.registerUser(dto)
+  async register(@Body() dto: AuthDto, @Session() session: UserSession) {
+    console.log({session})
+    const {id, email} = await this.authService.registerUser(dto)
+    this.serializeSession(session, id, email)
   }
 }
 /*  */
