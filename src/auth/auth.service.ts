@@ -27,8 +27,8 @@ export class AuthService {
 
     return {
       msg: 'User registered',
-      user: dto.email,
-      userId: user.id,
+      id: user.id,
+      email: user.email,
     }
   }
 
@@ -47,8 +47,8 @@ export class AuthService {
     }
 
     return {
-      msg: 'User connected',
-      user: dto.email,
+      id: user.id,
+      email: user.email,
     }
   }
 }
