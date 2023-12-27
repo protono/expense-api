@@ -1,4 +1,4 @@
-import {Body, Controller, HttpCode, HttpStatus, Post, Req} from '@nestjs/common'
+import {Body, Controller, HttpCode, HttpStatus, Post, Req, Session} from '@nestjs/common'
 import {AuthService} from './auth.service'
 import {AuthDto} from './dto'
 
@@ -8,10 +8,10 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('connect')
-  async connect(@Body() dto: AuthDto, @Req() req: any) {
-    console.log({session: req.session})
+  async connect(@Body() dto: AuthDto, @Session() session: any) {
+    console.log({session})
     const {id, email} = await this.authService.connectUser(dto)
-    req.session.user = {id, email}
+    session.user = {id, email}
     return this.authService.connectUser(dto)
   }
 
