@@ -5,19 +5,10 @@ import {PrismaService} from '../prisma/prisma.service'
 export class UserService {
   constructor(private prismaService: PrismaService) {}
 
-  getMe(userId: number) {
-    return this.prismaService.user.findUnique({
-      where: {
-        id: userId,
-      },
-      select: {
-        id: true,
-        createdAt: true,
-        updatedAt: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-      },
-    })
+  async getMe(userId: number) {
+    const user = await this.prismaService.user.findUnique({where: {id: userId}})
+    delete user.hash
+
+    return user
   }
 }
