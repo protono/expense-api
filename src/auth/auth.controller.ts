@@ -2,7 +2,6 @@ import {Body, Controller, HttpCode, HttpStatus, Post, Req, Session} from '@nestj
 import {AuthService} from './auth.service'
 import {AuthDto} from './dto'
 import {UserSession} from './types'
-import {SessionGuard} from './guards'
 
 @Controller('auth')
 export class AuthController {
