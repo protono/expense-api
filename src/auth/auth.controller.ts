@@ -2,8 +2,9 @@ import {Body, Controller, HttpCode, HttpStatus, Post, Req, Session, SetMetadata}
 import {AuthService} from './auth.service'
 import {AuthDto} from './dto'
 import {UserSession} from './types'
+import {PublicRoute} from './decorators'
 
-@SetMetadata('PUBLIC_ROUTE', true)
+@PublicRoute()
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
