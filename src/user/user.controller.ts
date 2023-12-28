@@ -1,7 +1,7 @@
-import {Controller, Get, Session, UseGuards} from '@nestjs/common'
+import {Controller, Get, UseGuards} from '@nestjs/common'
 import {SessionGuard} from '../auth/guards'
 import {UserService} from './user.service'
-import {UserSession} from '../auth/types'
+import {GetUserId} from '../auth/decorators'
 
 @Controller('user')
 export class UserController {
@@ -9,7 +9,7 @@ export class UserController {
 
   @UseGuards(SessionGuard)
   @Get('me')
-  getMe(@Session() session: UserSession) {
-    return this.userService.getMe(session.user.id)
+  getMe(@GetUserId() id: number) {
+    return this.userService.getMe(id)
   }
 }
