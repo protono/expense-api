@@ -1,8 +1,9 @@
-import {Body, Controller, HttpCode, HttpStatus, Post, Req, Session} from '@nestjs/common'
+import {Body, Controller, HttpCode, HttpStatus, Post, Req, Session, SetMetadata} from '@nestjs/common'
 import {AuthService} from './auth.service'
 import {AuthDto} from './dto'
 import {UserSession} from './types'
 
+@SetMetadata('PUBLIC_ROUTE', true)
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

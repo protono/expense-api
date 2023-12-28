@@ -1,5 +1,5 @@
-import {Controller, Get, UseGuards} from '@nestjs/common'
-import {SessionGuard} from '../auth/guards'
+import {Controller, Get, SetMetadata, UseGuards} from '@nestjs/common'
+// import {SessionGuard} from '../auth/guards'
 import {UserService} from './user.service'
 import {GetUserId} from '../auth/decorators'
 
@@ -7,7 +7,7 @@ import {GetUserId} from '../auth/decorators'
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @UseGuards(SessionGuard)
+  // @UseGuards(SessionGuard)
   @Get('me')
   getMe(@GetUserId() id: number) {
     return this.userService.getMe(id)
