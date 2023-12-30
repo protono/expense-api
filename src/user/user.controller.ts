@@ -1,7 +1,6 @@
-import {Controller, Get, SetMetadata, UseGuards} from '@nestjs/common'
-// import {SessionGuard} from '../auth/guards'
-import {UserService} from './user.service'
+import {Controller, Get} from '@nestjs/common'
 import {GetUserId} from '../auth/decorators'
+import {UserService} from './user.service'
 
 @Controller('user')
 export class UserController {

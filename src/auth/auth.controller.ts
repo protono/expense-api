@@ -1,8 +1,8 @@
-import {Body, Controller, HttpCode, HttpStatus, Post, Req, Session, SetMetadata} from '@nestjs/common'
+import {Body, Controller, HttpCode, HttpStatus, Post, Session} from '@nestjs/common'
 import {AuthService} from './auth.service'
+import {PublicRoute} from './decorators'
 import {AuthDto} from './dto'
 import {UserSession} from './types'
-import {PublicRoute} from './decorators'
 
 @PublicRoute()
 @Controller('auth')
@@ -26,4 +26,3 @@ export class AuthController {
     this.serializeSession(session, id, email)
   }
 }
-/*  */
