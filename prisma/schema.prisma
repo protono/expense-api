@@ -18,6 +18,8 @@ model User {
   firstName String?
   lastName  String?
 
+  expenses Expense[]
+
   @@map("user") // instructor advises to use singular form
 }
 
@@ -29,4 +31,10 @@ model Expense {
   title       String
   description String?
   amount      String
+  date        DateTime
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("expense")
 }
