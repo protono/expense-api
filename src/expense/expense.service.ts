@@ -1,4 +1,4 @@
-import {ForbiddenException, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common'
+import {ForbiddenException, Injectable, NotFoundException} from '@nestjs/common'
 import {PrismaService} from '../prisma/prisma.service'
 
 @Injectable()
@@ -14,7 +14,20 @@ export class ExpenseService {
   }
 
   async getExpense(userId: number, expenseId: number) {
-    const expense = await this.prismaService.expense.findFirst({where: {id: expenseId}})
+    const expense = await this.prismaService.expense.findFirst({
+      where: {
+        id: expenseId,
+      },
+      include: {
+        user: {
+          select: {
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+    })
     if (!expense) throw new NotFoundException(`Expense ${expenseId} does not exist`)
     if (expense.userId !== userId) throw new ForbiddenException(`Access to expense ${expenseId} is forbidden`)
     return expense
