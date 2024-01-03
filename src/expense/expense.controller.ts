@@ -1,19 +1,23 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, Query} from '@nestjs/common'
+import {Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors} from '@nestjs/common'
 import {ExpenseService} from './expense.service'
 import {GetUserId} from '../auth/decorators'
 import {CreateExpenseDTO, UpdateExpenseDTO} from './dto'
 import {PageDTO} from '../common/dto'
+import {CacheInterceptor, CacheTTL} from '@nestjs/cache-manager'
 
 @Controller('expense')
 export class ExpenseController {
   constructor(private expenseService: ExpenseService) {}
 
   @Get()
+  @UseInterceptors(CacheInterceptor)
+  // @CacheTTL(5000)
   getExpenses(@GetUserId() userId: number, @Query() dto: PageDTO) {
     return this.expenseService.getExpenses(userId, dto)
   }
 
   @Get(':id')
+  @UseInterceptors(CacheInterceptor)
   getExpense(@GetUserId() userId: number, @Param('id') expenseId: number) {
     return this.expenseService.getExpense(userId, expenseId)
   }

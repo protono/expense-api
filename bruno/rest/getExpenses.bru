@@ -5,12 +5,12 @@ meta {
 }
 
 get {
-  url: {{url}}/expense?offset=0&limit=10
+  url: {{url}}/expense
   body: none
   auth: none
 }
 
 query {
-  offset: 0
-  limit: 10
+  ~skip: 0
+  ~take: 7
 }
