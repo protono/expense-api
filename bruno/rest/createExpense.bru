@@ -1,0 +1,17 @@
+meta {
+  name: createExpense
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{url}}/expense
+  body: formUrlEncoded
+  auth: none
+}
+
+body:form-urlencoded {
+  title: First%20expense
+  amount: 10.50
+  date: 2024-01-03T11%3A11%3A58.344Z
+}
