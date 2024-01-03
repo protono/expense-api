@@ -1,0 +1,11 @@
+meta {
+  name: deleteExpense
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{url}}/expense/1
+  body: formUrlEncoded
+  auth: none
+}
