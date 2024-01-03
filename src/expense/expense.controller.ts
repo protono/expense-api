@@ -1,4 +1,4 @@
-import {Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common'
+import {Controller, Delete, Get, Param, ParseIntPipe, Patch, Post} from '@nestjs/common'
 import {ExpenseService} from './expense.service'
 import {GetUserId} from '../auth/decorators'
 import {CreateExpenseDTO, UpdateExpenseDTO} from './dto'
@@ -13,7 +13,7 @@ export class ExpenseController {
   }
 
   @Get(':id')
-  getExpense(@GetUserId() userId: number, @Param('id') expenseId: number) {
+  getExpense(@GetUserId() userId: number, @Param('id', ParseIntPipe) expenseId: number) {
     return this.expenseService.getExpense(userId, expenseId)
   }
 
@@ -23,12 +23,12 @@ export class ExpenseController {
   }
 
   @Patch(':id')
-  updateExpense(@GetUserId() userId: number, @Param('id') expenseId: number, dto: UpdateExpenseDTO) {
+  updateExpense(@GetUserId() userId: number, @Param('id', ParseIntPipe) expenseId: number, dto: UpdateExpenseDTO) {
     return this.expenseService.updateExpense(userId, expenseId, dto)
   }
 
   @Delete(':id')
-  deleteExpense(@GetUserId() userId: number, @Param('id') expenseId: number) {
+  deleteExpense(@GetUserId() userId: number, @Param('id', ParseIntPipe) expenseId: number) {
     return this.expenseService.deleteExpense(userId, expenseId)
   }
 }
