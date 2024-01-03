@@ -5,10 +5,10 @@ export class PageDTO {
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
-  limit: number = 10
+  take: number = 10
 
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
-  offset: number = 0
+  skip: number = 0
 }

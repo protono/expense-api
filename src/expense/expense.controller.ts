@@ -10,8 +10,7 @@ export class ExpenseController {
 
   @Get()
   getExpenses(@GetUserId() userId: number, @Query() dto: PageDTO) {
-    console.log({dto})
-    return this.expenseService.getExpenses(userId)
+    return this.expenseService.getExpenses(userId, dto)
   }
 
   @Get(':id')
@@ -21,7 +20,6 @@ export class ExpenseController {
 
   @Post()
   createExpense(@GetUserId() userId: number, @Body() dto: CreateExpenseDTO) {
-    console.log(userId)
     return this.expenseService.createExpense(userId, dto)
   }
 

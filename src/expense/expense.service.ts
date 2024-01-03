@@ -1,16 +1,19 @@
 import {ForbiddenException, Injectable, NotFoundException} from '@nestjs/common'
 import {PrismaService} from '../prisma/prisma.service'
 import {CreateExpenseDTO, UpdateExpenseDTO} from './dto'
+import {PageDTO} from '../common/dto'
 
 @Injectable()
 export class ExpenseService {
   constructor(private prismaService: PrismaService) {}
 
-  getExpenses(userId: number) {
+  getExpenses(userId: number, dto: PageDTO) {
     return this.prismaService.expense.findMany({
       where: {
         userId,
       },
+      skip: dto.skip,
+      take: dto.take,
     })
   }
 
