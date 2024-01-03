@@ -1,7 +1,7 @@
 import {Body, Controller, HttpCode, HttpStatus, Post, Session} from '@nestjs/common'
 import {AuthService} from './auth.service'
 import {PublicRoute} from './decorators'
-import {AuthDto} from './dto'
+import {AuthDTO} from './dto'
 import {UserSession} from './types'
 
 @PublicRoute()
@@ -15,13 +15,13 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('connect')
-  async connect(@Body() dto: AuthDto, @Session() session: UserSession) {
+  async connect(@Body() dto: AuthDTO, @Session() session: UserSession) {
     const {id, email} = await this.authService.connectUser(dto)
     this.serializeSession(session, id, email)
   }
 
   @Post('register')
-  async register(@Body() dto: AuthDto, @Session() session: UserSession) {
+  async register(@Body() dto: AuthDTO, @Session() session: UserSession) {
     const {id, email} = await this.authService.registerUser(dto)
     this.serializeSession(session, id, email)
   }

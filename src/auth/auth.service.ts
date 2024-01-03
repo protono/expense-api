@@ -1,12 +1,12 @@
 import {ForbiddenException, Injectable} from '@nestjs/common'
-import {PrismaService} from '../prisma/prisma.service'
-import {AuthDto} from './dto'
 import * as argon2 from 'argon2'
+import {PrismaService} from '../prisma/prisma.service'
+import {AuthDTO} from './dto'
 
 @Injectable()
 export class AuthService {
   constructor(private prismaService: PrismaService) {}
-  async registerUser(dto: AuthDto) {
+  async registerUser(dto: AuthDTO) {
     // throw if email is in use
     const userExists = await this.prismaService.user.findUnique({where: {email: dto.email}})
     // console.log({userExists})
@@ -31,7 +31,7 @@ export class AuthService {
     }
   }
 
-  async connectUser(dto: AuthDto) {
+  async connectUser(dto: AuthDTO) {
     // throw if email is not in use
     const user = await this.prismaService.user.findUnique({where: {email: dto.email}})
     // console.log({user})
