@@ -1,20 +1,27 @@
 import {ForbiddenException, Injectable, NotFoundException} from '@nestjs/common'
 import {PrismaService} from '../prisma/prisma.service'
 import {CreateExpenseDTO, UpdateExpenseDTO} from './dto'
-import {PageDTO} from '../common/dto'
+import {PageDTO, PageResultDTO} from '../common/dto'
 
 @Injectable()
 export class ExpenseService {
   constructor(private prismaService: PrismaService) {}
 
-  getExpenses(userId: number, dto: PageDTO) {
-    return this.prismaService.expense.findMany({
+  async getExpenses(userId: number, dto: PageDTO): Promise<PageResultDTO> {
+    const data = await this.prismaService.expense.findMany({
       where: {
         userId,
       },
       skip: dto.skip,
       take: dto.take,
     })
+    const count = await this.prismaService.expense.count({
+      where: {
+        userId,
+      },
+    })
+    const hasMore = count > dto.take + dto.skip
+    return {data, count, hasMore}
   }
 
   async getExpense(userId: number, expenseId: number) {
