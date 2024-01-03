@@ -17,7 +17,7 @@ export class ExpenseService {
   async getExpense(userId: number, expenseId: number) {
     const expense = await this.prismaService.expense.findFirst({
       where: {
-        id: expenseId,
+        id: +expenseId,
       },
       include: {
         user: {
