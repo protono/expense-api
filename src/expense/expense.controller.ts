@@ -1,14 +1,16 @@
-import {Body, Controller, Delete, Get, Param,  Patch, Post} from '@nestjs/common'
+import {Body, Controller, Delete, Get, Param, Patch, Post, Query} from '@nestjs/common'
 import {ExpenseService} from './expense.service'
 import {GetUserId} from '../auth/decorators'
 import {CreateExpenseDTO, UpdateExpenseDTO} from './dto'
+import {PageDTO} from '../common/dto'
 
 @Controller('expense')
 export class ExpenseController {
   constructor(private expenseService: ExpenseService) {}
 
   @Get()
-  getExpenses(@GetUserId() userId: number) {
+  getExpenses(@GetUserId() userId: number, @Query() dto: PageDTO) {
+    console.log({dto})
     return this.expenseService.getExpenses(userId)
   }
 
