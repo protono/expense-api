@@ -6,6 +6,8 @@ import {APP_GUARD} from '@nestjs/core'
 import {SessionGuard} from './auth/guards'
 import {ExpenseModule} from './expense/expense.module'
 import {CacheModule} from '@nestjs/cache-manager'
+import {redisStore} from 'cache-manager-redis-yet'
+import {RedisClientOptions} from 'redis'
 
 @Module({
   imports: [
@@ -13,9 +15,11 @@ import {CacheModule} from '@nestjs/cache-manager'
     PrismaModule,
     UserModule,
     ExpenseModule,
-    CacheModule.register({
+    CacheModule.register<RedisClientOptions>({
       isGlobal: true,
-      ttl: 5000,
+      ttl: 20000,
+      url: 'redis://localhost:6379',
+      store: redisStore,
     }),
   ],
   providers: [

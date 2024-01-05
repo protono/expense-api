@@ -13,9 +13,6 @@ async function bootstrap() {
   redisClient.on('error', (err) => {
     console.log(`Error ${err} while connecting to Redis`)
   })
-  redisClient.on('connect', () => {
-    console.log(`Successfully connected to Redis`)
-  })
   redisClient.connect()
   app.use(
     session({
@@ -24,6 +21,7 @@ async function bootstrap() {
       saveUninitialized: false,
       store: new RedisStore({
         client: redisClient,
+        ttl: 60000,
       }),
     }),
   )
