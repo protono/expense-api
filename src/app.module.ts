@@ -8,6 +8,8 @@ import {ExpenseModule} from './expense/expense.module'
 import {CacheModule} from '@nestjs/cache-manager'
 import {redisStore} from 'cache-manager-redis-yet'
 import {RedisClientOptions} from 'redis'
+import {ConfigModule, ConfigService} from '@nestjs/config'
+import {config} from 'process'
 
 @Module({
   imports: [
@@ -15,11 +17,17 @@ import {RedisClientOptions} from 'redis'
     PrismaModule,
     UserModule,
     ExpenseModule,
-    CacheModule.register<RedisClientOptions>({
+    ConfigModule.forRoot({isGlobal: true}),
+    CacheModule.registerAsync<RedisClientOptions>({
       isGlobal: true,
-      ttl: 20000,
-      url: 'redis://localhost:6379',
-      store: redisStore,
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return {
+          ttl: 20000,
+          url: configService.getOrThrow('REDIS_URL'),
+          store: redisStore,
+        }
+      },
     }),
   ],
   providers: [
