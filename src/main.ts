@@ -4,11 +4,13 @@ import {ValidationPipe} from '@nestjs/common'
 import * as session from 'express-session'
 import RedisStore from 'connect-redis'
 import {createClient} from 'redis'
+import {ConfigService} from '@nestjs/config'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+  const configService = app.get(ConfigService)
   const redisClient = createClient({
-    url: 'redis://localhost:6379',
+    url: configService.getOrThrow('REDIS_URL'),
   })
   redisClient.on('error', (err) => {
     console.log(`Error ${err} while connecting to Redis`)
@@ -16,7 +18,7 @@ async function bootstrap() {
   redisClient.connect()
   app.use(
     session({
-      secret: 'a3f99b00-8c95-4556-b8a2-fa5b7c086411',
+      secret: configService.getOrThrow('SESSION_SECRET'),
       resave: false,
       saveUninitialized: false,
       store: new RedisStore({
