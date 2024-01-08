@@ -5,12 +5,12 @@ meta {
 }
 
 get {
-  url: {{url}}/expense
+  url: {{url}}/expense?take=2
   body: none
   auth: none
 }
 
 query {
+  take: 2
   ~skip: 0
-  ~take: 7
 }

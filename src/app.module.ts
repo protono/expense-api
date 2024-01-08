@@ -1,15 +1,14 @@
-import {Module} from '@nestjs/common'
-import {AuthModule} from './auth/auth.module'
-import {PrismaModule} from './prisma/prisma.module'
-import {UserModule} from './user/user.module'
 import {APP_GUARD} from '@nestjs/core'
-import {SessionGuard} from './auth/guards'
-import {ExpenseModule} from './expense/expense.module'
+import {AuthModule} from './auth/auth.module'
 import {CacheModule} from '@nestjs/cache-manager'
-import {redisStore} from 'cache-manager-redis-yet'
-import {RedisClientOptions} from 'redis'
 import {ConfigModule, ConfigService} from '@nestjs/config'
-import {config} from 'process'
+import {ExpenseModule} from './expense/expense.module'
+import {Module} from '@nestjs/common'
+import {PrismaModule} from './prisma/prisma.module'
+import {RedisClientOptions} from 'redis'
+import {redisStore} from 'cache-manager-redis-yet'
+import {SessionGuard} from './auth/guards'
+import {UserModule} from './user/user.module'
 
 @Module({
   imports: [
@@ -23,7 +22,7 @@ import {config} from 'process'
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         return {
-          ttl: 20000,
+          ttl: 10000, // milliseconds
           url: configService.getOrThrow('REDIS_URL'),
           store: redisStore,
         }
