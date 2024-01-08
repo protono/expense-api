@@ -9,6 +9,8 @@ import {RedisClientOptions} from 'redis'
 import {redisStore} from 'cache-manager-redis-yet'
 import {SessionGuard} from './auth/guards'
 import {UserModule} from './user/user.module'
+import {SchedulerModuile} from './scheduler/scheduler.module'
+import {ScheduleModule} from '@nestjs/schedule'
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import {UserModule} from './user/user.module'
     PrismaModule,
     UserModule,
     ExpenseModule,
+    SchedulerModuile,
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({isGlobal: true}),
     CacheModule.registerAsync<RedisClientOptions>({
       isGlobal: true,

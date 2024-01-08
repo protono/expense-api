@@ -20,6 +20,9 @@ model User {
 
   expenses Expense[]
 
+  initialBalance Int @default(1000)
+  currentBalance Int @default(1000)
+
   @@map("user") // instructor advises to use singular form
 }
 
