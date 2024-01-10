@@ -11,4 +11,20 @@ export class UserService {
 
     return user
   }
+
+  async getAllUsers() {
+    return await this.prismaService.user.findMany({
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        createdAt: true,
+        _count: {
+          select: {
+            expenses: true,
+          },
+        },
+      },
+    })
+  }
 }

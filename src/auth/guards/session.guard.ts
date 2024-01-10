@@ -14,7 +14,7 @@ export class SessionGuard implements CanActivate {
 
     const isRoutePublic = this.reflector.getAllAndOverride('PUBLIC_ROUTE', [context.getHandler(), context.getClass()])
 
-    if (isRoutePublic) return true
+    if (isRoutePublic) return true // bypass authorization
 
     if (!session.user) throw new UnauthorizedException('The session is missing')
 

@@ -6,7 +6,11 @@ import {UserService} from './user.service'
 export class UserController {
   constructor(private userService: UserService) {}
 
-  // @UseGuards(SessionGuard)
+  @Get('all')
+  getAllUsers() {
+    return this.userService.getAllUsers()
+  }
+
   @Get('me')
   getMe(@GetUserId() id: number) {
     return this.userService.getMe(id)
