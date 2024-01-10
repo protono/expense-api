@@ -59,6 +59,10 @@ describe('SimpleService', () => {
         jest.restoreAllMocks()
         console.log(simpleService.testMeWithMocks(0))
       })
+
+      test('randomValue() should be called', () => {
+        expect(simpleService.randomValue).toHaveReturnedWith(1)
+      })
     })
   })
 })
