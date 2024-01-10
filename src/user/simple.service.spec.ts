@@ -16,9 +16,13 @@ describe('SimpleService', () => {
     expect(simpleService).toBeDefined()
   })
 
+  afterAll(async () => {
+    jest.restoreAllMocks()
+  })
+
   describe('Method: testMe', () => {
     describe('when called', () => {
-      let result
+      let result: any
 
       beforeEach(async () => {
         result = simpleService.testMe(0)
@@ -36,11 +40,10 @@ describe('SimpleService', () => {
 
   describe('Method: testMeWithMocks', () => {
     describe('when called', () => {
-      let result
+      let result: any
 
       beforeEach(async () => {
-        // Math.random = jest.fn().mockReturnValue(0.01)
-        jest.spyOn(Math, 'random').mockReturnValue(0.01)
+        jest.spyOn(simpleService, 'randomValue').mockReturnValue(1)
         result = simpleService.testMeWithMocks(0)
       })
 
@@ -52,7 +55,7 @@ describe('SimpleService', () => {
         expect(result).toBe(1)
       })
 
-      it('', () => {
+      test.skip('just a test', () => {
         jest.restoreAllMocks()
         console.log(simpleService.testMeWithMocks(0))
       })

@@ -7,6 +7,10 @@ export class SimpleService {
   }
 
   testMeWithMocks(value: number) {
-    return Math.round(Math.random() * 100) + value
+    return this.randomValue() + value
+  }
+
+  randomValue() {
+    return Math.round(Math.random() * 100)
   }
 }
