@@ -1,4 +1,4 @@
-import {Controller, Get} from '@nestjs/common'
+import {Controller, Get, SetMetadata} from '@nestjs/common'
 import {GetUserId} from '../auth/decorators'
 import {UserService} from './user.service'
 
@@ -6,6 +6,7 @@ import {UserService} from './user.service'
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @SetMetadata('ADMIN_ROUTE', true)
   @Get('all')
   getAllUsers() {
     return this.userService.getAllUsers()
