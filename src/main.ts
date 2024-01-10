@@ -23,7 +23,7 @@ async function bootstrap() {
       saveUninitialized: false,
       store: new RedisStore({
         client: redisClient,
-        ttl: 60, // seconds
+        ttl: 300, // seconds
       }),
     }),
   )
