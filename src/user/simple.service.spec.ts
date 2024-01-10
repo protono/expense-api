@@ -33,4 +33,29 @@ describe('SimpleService', () => {
       })
     })
   })
+
+  describe('Method: testMeWithMocks', () => {
+    describe('when called', () => {
+      let result
+
+      beforeEach(async () => {
+        // Math.random = jest.fn().mockReturnValue(0.01)
+        jest.spyOn(Math, 'random').mockReturnValue(0.01)
+        result = simpleService.testMeWithMocks(0)
+      })
+
+      it('should return a number', () => {
+        expect(typeof result).toBe('number')
+      })
+
+      it('which should be incremented', () => {
+        expect(result).toBe(1)
+      })
+
+      it('', () => {
+        jest.restoreAllMocks()
+        console.log(simpleService.testMeWithMocks(0))
+      })
+    })
+  })
 })
