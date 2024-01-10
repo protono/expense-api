@@ -61,6 +61,7 @@ describe('SimpleService', () => {
       })
 
       test('randomValue() should be called', () => {
+        expect(simpleService.randomValue).toHaveBeenCalled()
         expect(simpleService.randomValue).toHaveReturnedWith(1)
       })
     })
