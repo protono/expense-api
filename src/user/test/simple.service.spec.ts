@@ -1,5 +1,5 @@
 import {Test} from '@nestjs/testing'
-import {SimpleService} from './simple.service'
+import {SimpleService} from '../simple.service'
 
 describe('SimpleService', () => {
   let simpleService: SimpleService
@@ -12,12 +12,12 @@ describe('SimpleService', () => {
     simpleService = module.get(SimpleService)
   })
 
-  it('bootstrap', () => {
-    expect(simpleService).toBeDefined()
-  })
-
   afterAll(async () => {
     jest.restoreAllMocks()
+  })
+
+  it('bootstrap', () => {
+    expect(simpleService).toBeDefined()
   })
 
   describe('Method: testMe', () => {
