@@ -1,7 +1,7 @@
 import {Test} from '@nestjs/testing'
 import {SimpleService} from '../simple.service'
 
-describe('SimpleService', () => {
+describe('[SimpleService]', () => {
   let simpleService: SimpleService
 
   beforeAll(async () => {
@@ -20,26 +20,26 @@ describe('SimpleService', () => {
     expect(simpleService).toBeDefined()
   })
 
-  describe('Method: testMe', () => {
-    describe('when called', () => {
+  describe('testMe()', () => {
+    describe('- when called', () => {
       let result: any
 
       beforeEach(async () => {
         result = simpleService.testMe(0)
       })
 
-      it('should return a number', () => {
+      it('returns a number', () => {
         expect(typeof result).toBe('number')
       })
 
-      it('which should be incremented', () => {
+      it('which is incremented', () => {
         expect(result).toBe(1)
       })
     })
   })
 
-  describe('Method: testMeWithMocks', () => {
-    describe('when called', () => {
+  describe('testMeWithMocks()', () => {
+    describe('- when called', () => {
       let result: any
 
       beforeEach(async () => {
@@ -47,20 +47,20 @@ describe('SimpleService', () => {
         result = simpleService.testMeWithMocks(0)
       })
 
-      it('should return a number', () => {
+      it('returns a number', () => {
         expect(typeof result).toBe('number')
       })
 
-      it('which should be incremented', () => {
+      it('which is incremented', () => {
         expect(result).toBe(1)
       })
 
-      test.skip('just a test', () => {
+      it.skip('just a test', () => {
         jest.restoreAllMocks()
         console.log(simpleService.testMeWithMocks(0))
       })
 
-      test('randomValue() should be called', () => {
+      it('randomValue() is called', () => {
         expect(simpleService.randomValue).toHaveBeenCalled()
         expect(simpleService.randomValue).toHaveReturnedWith(1)
       })

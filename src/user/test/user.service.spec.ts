@@ -1,11 +1,12 @@
 import {Test} from '@nestjs/testing'
-import {UserService} from '../user.service'
-import {PrismaModule} from '../../prisma/prisma.module'
-import {Role} from '@prisma/client'
+import {User} from '@prisma/client'
 import {PrismaService} from '../../prisma/prisma.service'
+import {UserService} from '../user.service'
+import {userStub} from '../stubs'
 
-describe('UserService', () => {
+describe('[UserService]', () => {
   let userService: UserService
+  let prismaService: PrismaService
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -15,16 +16,7 @@ describe('UserService', () => {
           provide: PrismaService,
           useValue: {
             user: {
-              findUnique: jest.fn().mockResolvedValue({
-                id: 1,
-                email: 'test@test.com',
-                hash: 'hahahaha',
-                initialBalance: 1000,
-                currentBalance: 1000,
-                role: Role.USER,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-              }),
+              findUnique: jest.fn().mockResolvedValue(userStub()),
             },
           },
         },
@@ -32,6 +24,7 @@ describe('UserService', () => {
     }).compile()
 
     userService = module.get(UserService)
+    prismaService = module.get(PrismaService)
   })
 
   afterAll(async () => {
@@ -42,15 +35,29 @@ describe('UserService', () => {
     expect(userService).toBeDefined()
   })
 
-  describe('Method: getMe', () => {
-    describe('', () => {
-      let result: any
+  describe('getMe()', () => {
+    describe('- when called', () => {
+      let result: User
 
-      beforeEach(async () => {})
+      beforeEach(async () => {
+        result = await userService.getMe(userStub().id)
+      })
 
-      it('test', async () => {
-        const val = await userService.getMe(1)
-        console.log(val)
+      it('returns a user', async () => {
+        expect(result.id).toEqual(userStub().id)
+      })
+
+      it('has removed the hash', () => {
+        expect(result.hash).toBeUndefined()
+      })
+
+      it('findUnique() is called', () => {
+        expect(prismaService.user.findUnique).toHaveBeenCalledWith({
+          where: {
+            id: userStub().id,
+          },
+        })
+        expect(prismaService.user.findUnique).toHaveReturnedWith(Promise.resolve(userStub()))
       })
     })
   })
