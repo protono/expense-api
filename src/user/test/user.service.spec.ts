@@ -4,23 +4,15 @@ import {PrismaService} from '../../prisma/prisma.service'
 import {UserService} from '../user.service'
 import {userStub} from '../stubs'
 
+jest.mock('../../prisma/prisma.service.ts')
+
 describe('[UserService]', () => {
   let userService: UserService
   let prismaService: PrismaService
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      providers: [
-        UserService,
-        {
-          provide: PrismaService,
-          useValue: {
-            user: {
-              findUnique: jest.fn().mockResolvedValue(userStub()),
-            },
-          },
-        },
-      ],
+      providers: [UserService, PrismaService],
     }).compile()
 
     userService = module.get(UserService)
