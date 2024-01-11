@@ -44,7 +44,9 @@ describe('[UserService]', () => {
       })
 
       it('returns a user', async () => {
-        expect(result.id).toEqual(userStub().id)
+        const user = userStub()
+        delete user.hash
+        expect(result).toMatchObject(user)
       })
 
       it('has removed the hash', () => {
