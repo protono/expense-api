@@ -1,4 +1,4 @@
-import {Role} from '@prisma/client'
+import {Expense, Role} from '@prisma/client'
 
 const date = new Date()
 
@@ -11,4 +11,22 @@ export const userStub = () => ({
   role: Role.USER,
   createdAt: date,
   updatedAt: date,
+})
+
+export const userWithExpensesStub = () => ({
+  userStub,
+  expenses: [
+    {
+      id: 1,
+      amount: '100',
+    },
+    {
+      id: 2,
+      amount: '20',
+    },
+    {
+      id: 3,
+      amount: '50',
+    },
+  ] as Expense[],
 })

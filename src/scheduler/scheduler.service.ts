@@ -1,5 +1,5 @@
 import {Injectable, Logger} from '@nestjs/common'
-import {Cron, CronExpression, Interval, Timeout} from '@nestjs/schedule'
+import {Cron} from '@nestjs/schedule'
 import {PrismaService} from '../prisma/prisma.service'
 import {Expense} from '@prisma/client'
 
@@ -17,9 +17,7 @@ export class SchedulerService {
       },
     })
     for (const user of users) {
-      const totalExpenses = user.expenses.reduce((prev: number, next: Expense) => {
-        return prev + +next.amount
-      }, 0)
+      const totalExpenses = this.totalExpenses(user.expenses)
 
       if (user.initialBalance - totalExpenses >= user.currentBalance) continue
 
@@ -38,5 +36,11 @@ export class SchedulerService {
     }
 
     this.logger.log(`calculateCurrentBalance() ran for ${users.length} users`)
+  }
+
+  totalExpenses(expenses: Expense[]) {
+    return expenses.reduce((prev: number, next: Expense) => {
+      return prev + +next.amount
+    }, 0)
   }
 }
