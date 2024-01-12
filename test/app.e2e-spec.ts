@@ -1,17 +1,17 @@
-import {Test} from '@nestjs/testing'
-import {AuthModule} from '../src/auth/auth.module'
-import {PrismaModule} from '../src/prisma/prisma.module'
-import {UserModule} from '../src/user/user.module'
-import {ExpenseModule} from '../src/expense/expense.module'
-import {SchedulerModuile} from '../src/scheduler/scheduler.module'
-import {ScheduleModule} from '@nestjs/schedule'
-import {ConfigModule, ConfigService} from '@nestjs/config'
-import {CacheModule} from '@nestjs/cache-manager'
-import {RedisClientOptions} from 'redis'
-import {redisStore} from 'cache-manager-redis-yet'
-import {APP_GUARD} from '@nestjs/core'
-import {AdminGuard, SessionGuard} from '../src/auth/guards'
+import {CACHE_MANAGER, CacheModule} from '@nestjs/cache-manager'
 import {INestApplication} from '@nestjs/common'
+import {ConfigModule, ConfigService} from '@nestjs/config'
+import {APP_GUARD} from '@nestjs/core'
+import {ScheduleModule} from '@nestjs/schedule'
+import {Test} from '@nestjs/testing'
+import {redisStore} from 'cache-manager-redis-yet'
+import {RedisClientOptions} from 'redis'
+import {AuthModule} from '../src/auth/auth.module'
+import {AdminGuard, SessionGuard} from '../src/auth/guards'
+import {ExpenseModule} from '../src/expense/expense.module'
+import {PrismaModule} from '../src/prisma/prisma.module'
+import {SchedulerModuile} from '../src/scheduler/scheduler.module'
+import {UserModule} from '../src/user/user.module'
 
 describe('App (e2e)', () => {
   let app: INestApplication
@@ -53,7 +53,9 @@ describe('App (e2e)', () => {
     app = module.createNestApplication()
   })
 
-  afterAll(() => {
+  afterAll(async () => {
+    const cacheManager = app.get(CACHE_MANAGER)
+    await cacheManager.store.client.quit()
     app.close()
   })
 
