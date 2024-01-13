@@ -17,8 +17,9 @@ async function bootstrap() {
   redisClient.on('error', (err) => {
     console.log(`Error ${err} while connecting to Redis`)
   })
-
-  redisClient.connect()
+  await redisClient.connect().catch((error) => {
+    throw error
+  })
 
   app.use(
     session({
