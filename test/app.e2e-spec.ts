@@ -12,6 +12,8 @@ import {ExpenseModule} from '../src/expense/expense.module'
 import {PrismaModule} from '../src/prisma/prisma.module'
 import {SchedulerModuile} from '../src/scheduler/scheduler.module'
 import {UserModule} from '../src/user/user.module'
+import * as request from 'supertest'
+import {AuthDTO} from '../src/auth/dto'
 
 describe('App (e2e)', () => {
   let app: INestApplication
@@ -51,6 +53,8 @@ describe('App (e2e)', () => {
     }).compile()
 
     app = module.createNestApplication()
+
+    await app.init()
   })
 
   afterAll(async () => {
@@ -62,6 +66,15 @@ describe('App (e2e)', () => {
   describe('[AppModule]', () => {
     it('should be defined', () => {
       expect(app).toBeDefined()
+    })
+  })
+
+  describe('[auth]', () => {
+    describe('registerUser()', () => {
+      it('registers a user', () => {
+        const dto: AuthDTO = {email: 'test@test.com', password: 'arcane'}
+        return request(app.getHttpServer()).post('/auth/register').send(dto).expect(201)
+      })
     })
   })
 })
