@@ -21,6 +21,7 @@ import {PrismaService} from '../src/prisma/prisma.service'
 describe('App (e2e)', () => {
   let app: INestApplication
   let redisClient: RedisClientType
+  let connectSid = ''
 
   beforeAll(async () => {
     // copied from app.module.ts - BEGIN
@@ -93,6 +94,7 @@ describe('App (e2e)', () => {
       }),
     )
     // copied from main.ts - END
+
     await prismaService.cleanDb()
     await app.init()
   })
@@ -111,10 +113,46 @@ describe('App (e2e)', () => {
   })
 
   describe('[auth]', () => {
+    const dto: AuthDTO = {email: 'test@test.com', password: 'arcane'}
+
     describe('registerUser()', () => {
       it('registers a user', () => {
-        const dto: AuthDTO = {email: 'test@test.com', password: 'arcane'}
-        return request(app.getHttpServer()).post('/auth/register').send(dto).expect(201)
+        return request(app.getHttpServer())
+          .post('/auth/register')
+          .send(dto)
+          .expect(201)
+          .expect('set-cookie', /connect.sid/)
+          .expect(({header}) => {
+            connectSid = header['set-cookie']
+          })
+      })
+    })
+
+    describe('connectUser()', () => {
+      it('connects a user', () => {
+        return request(app.getHttpServer())
+          .post('/auth/connect')
+          .send(dto)
+          .expect(200)
+          .expect('set-cookie', /connect.sid/)
+      })
+    })
+  })
+
+  describe('[user]', () => {
+    describe('getMe()', () => {
+      it('needs a session id', () => {
+        return request(app.getHttpServer()).get('/user/me').expect(401)
+      })
+
+      it('gets a user', () => {
+        return request(app.getHttpServer())
+          .get('/user/me')
+          .set('Cookie', connectSid)
+          .expect(200)
+          .expect(({body}) => {
+            console.log(body)
+          })
       })
     })
   })
