@@ -1,4 +1,16 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors} from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common'
 import {ExpenseService} from './expense.service'
 import {GetUserId} from '../auth/decorators'
 import {CreateExpenseDTO, UpdateExpenseDTO} from './dto'
@@ -32,6 +44,7 @@ export class ExpenseController {
     return this.expenseService.updateExpense(userId, expenseId, dto)
   }
 
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
   deleteExpense(@GetUserId() userId: number, @Param('id') expenseId: number) {
     return this.expenseService.deleteExpense(userId, expenseId)
