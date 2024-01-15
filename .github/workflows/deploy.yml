@@ -47,4 +47,4 @@ jobs:
               pm2 start /home/${{ secrets.USERNAME }}/expense-api/dist/src/main.js
             host: ${{ secrets.HOST }}
             username: ${{ secrets.USERNAME }}
-              password: ${{ secrets.PASSWORD }}
+            password: ${{ secrets.PASSWORD }}
