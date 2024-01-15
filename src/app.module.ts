@@ -1,4 +1,6 @@
+import {AdminGuard, SessionGuard} from './auth/guards'
 import {APP_GUARD} from '@nestjs/core'
+import {AppController} from './app.controller'
 import {AuthModule} from './auth/auth.module'
 import {CacheModule} from '@nestjs/cache-manager'
 import {ConfigModule, ConfigService} from '@nestjs/config'
@@ -7,10 +9,9 @@ import {Module} from '@nestjs/common'
 import {PrismaModule} from './prisma/prisma.module'
 import {RedisClientOptions} from 'redis'
 import {redisStore} from 'cache-manager-redis-yet'
-import {AdminGuard, SessionGuard} from './auth/guards'
-import {UserModule} from './user/user.module'
-import {SchedulerModuile} from './scheduler/scheduler.module'
 import {ScheduleModule} from '@nestjs/schedule'
+import {SchedulerModuile} from './scheduler/scheduler.module'
+import {UserModule} from './user/user.module'
 
 @Module({
   imports: [
@@ -43,5 +44,6 @@ import {ScheduleModule} from '@nestjs/schedule'
       useClass: AdminGuard,
     },
   ],
+  controllers: [AppController],
 })
 export class AppModule {}
