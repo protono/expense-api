@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [*]
+        node: *
       steps:
         - uses: actions/checkout@v4
         - name: Use Node ${{ matrix.node }}
